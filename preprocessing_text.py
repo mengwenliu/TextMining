@@ -29,10 +29,10 @@ wnl = WordNetLemmatizer()
 #(applying tokenization, lemmatization, stopwords removal, etc.)
 def text_to_token(sent):
     #tokens = pt.tokenization(sent)
-    lemma = pt.lemmatization(sent)
-    lower_lemma = pt.to_lower_cases(lemma)
-    filtered_lemma = pt.remove_stopwords(lower_lemma)
-    reduced_lemma = pt.remove_non_alpha(filtered_lemma)
+    lemma = lemmatization(sent)
+    lower_lemma = to_lower_cases(lemma)
+    filtered_lemma = remove_stopwords(lower_lemma)
+    reduced_lemma = remove_non_alpha(filtered_lemma)
     return reduced_lemma
 
 #filtering
