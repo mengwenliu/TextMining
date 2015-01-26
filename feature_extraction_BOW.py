@@ -10,7 +10,6 @@ Core Function: featureExtraction
 
 import sys
 
-
 def featureExtraction(all_token_list, threshold, boolean):
     feature_set = generateFeatureSet(all_token_list)
     feature_set_red = removeSingleOccurrenceFeature(feature_set)
@@ -72,6 +71,24 @@ def generateFeatureVector(feature_set, num, boolean):
             for index in indices:
                 feature_vec_list[int(index)][i] = v.count(index)
     
+    return feature_vec_list
+
+def generateFeatureVectorForTest(feature_set, all_token_list, boolean):
+    '''
+    feature_set format: 
+    key: word
+    value: index (starting from 1)
+    '''
+    feature_vec_list = []
+    for i in range(len(all_token_list)):
+        vector = [0] * len(feature_set)
+        for token in all_token_list[i]:
+            if token in feature_set.keys():
+                if boolean:
+                    vector[feature_set[token]-1] = 1    
+                else:
+                    vector[feature_set[token]-1] += 1
+        feature_vec_list.append(vector)
     return feature_vec_list
 
 def writeFeature(featureSet, filePath):

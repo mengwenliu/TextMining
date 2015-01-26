@@ -18,8 +18,6 @@ from nltk.corpus import stopwords
 from nltk.corpus import wordnet as wn
 from nltk.stem import WordNetLemmatizer
 
-import read_file
-
 
 stop = stopwords.words('english')
 sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -29,7 +27,8 @@ wnl = WordNetLemmatizer()
 #(applying tokenization, lemmatization, stopwords removal, etc.)
 def text_to_token(sent):
     #tokens = pt.tokenization(sent)
-    lemma = lemmatization(sent)
+    lemma = tokenization(sent)
+    #lemma = lemmatization(sent)
     lower_lemma = to_lower_cases(lemma)
     filtered_lemma = remove_stopwords(lower_lemma)
     reduced_lemma = remove_non_alpha(filtered_lemma)
@@ -97,15 +96,7 @@ def lemmatization(sent):
         else:
             lemm = wnl.lemmatize(token.lower())    
         lemma.append(lemm)
+    #print sent
+    #print lemma
     return lemma
 
-
-
-def main():
-    line_list = read_file.readFile(sys.argv[1])
-    for line in line_list:
-        line = remove_non_ascii(line)
-        print line 
-       
-if __name__ == '__main__':
-    main()
