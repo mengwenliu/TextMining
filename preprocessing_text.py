@@ -27,18 +27,31 @@ wnl = WordNetLemmatizer()
 #(applying tokenization, lemmatization, stopwords removal, etc.)
 def text_to_token(sent):
     #tokens = pt.tokenization(sent)
-    lemma = tokenization(sent)
-    #lemma = lemmatization(sent)
+    #lemma = tokenization(sent)
+    lemma = lemmatization(sent)
     lower_lemma = to_lower_cases(lemma)
     filtered_lemma = remove_stopwords(lower_lemma)
     reduced_lemma = remove_non_alpha(filtered_lemma)
     return reduced_lemma
+
+#(applying tokenization, lemmatization, uppercases to lowercases)
+def text_to_token_simple(sent):
+    lemma = lemmatization(sent)
+    lower_lemma = to_lower_cases(lemma)
+    return lower_lemma
 
 #filtering
 def remove_non_ascii(line):
     line = filter(lambda x: x in string.printable, line)
     return line
 
+def filter_tokens(token_list):
+    lower_tokens = to_lower_cases(token_list)
+    non_stopword_tokens = remove_stopwords(lower_tokens)
+    non_alpha_tokens = remove_non_alpha(non_stopword_tokens)
+    
+    return non_alpha_tokens
+    
 def remove_stopwords(token_list):
     new_token_list = [t for t in token_list if t not in stop]
     return new_token_list
@@ -92,11 +105,18 @@ def lemmatization(sent):
     for token, tag in tags:
         tag_category = penn_to_wn(tag)
         if tag_category != None:
-            lemm = wnl.lemmatize(token.lower(), tag_category)
+            #lemm = wnl.lemmatize(token.lower(), tag_category)
+            lemm = wnl.lemmatize(token, tag_category)
         else:
-            lemm = wnl.lemmatize(token.lower())    
+            #lemm = wnl.lemmatize(token.lower())    
+            lemm = wnl.lemmatize(token)    
         lemma.append(lemm)
     #print sent
     #print lemma
     return lemma
+
+# added on 12/9/2015
+def remove_punctuation(token_list):
+    new_token_list = [t for t in token_list if t not in string.punctuation]
+    return new_token_list
 
